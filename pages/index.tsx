@@ -15,27 +15,28 @@ const Home: NextPage<Props> = ({ pokemons }) => {
     <div>
       <Layout title="Home" description="Listado de Pokemons" />
       
-        <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
-      {pokemons.map((pokemon: any) => (
-        <Card shadow="sm" key={pokemon.id} isPressable onPress={() => alert(pokemon.name.toUpperCase())}>
-          <CardBody className="overflow-visible p-0">
-            <Image
-              isZoomed
-              shadow="sm"
-              radius="lg"
-              width="100%"
-              alt={pokemon.name}
-              src={pokemon.img}
-            />
-          </CardBody>
-          <CardFooter className="text-medium justify-center">
+        <div className="gap-2 grid grid-cols-2 sm:grid-cols-5">
+          {pokemons.map((pokemon: any) => (
+            <Card shadow="sm" key={pokemon.id} isPressable onPress={() => alert(pokemon.name.toUpperCase())}>
+              <CardBody className="overflow-visible p-0">
+                <Image
+                  isZoomed
+                  // shadow="sm"
+                  // radius="lg"
+                  width="100%"
+                  alt={pokemon.name}
+                  src={pokemon.img}
+                  height={140}
+                />
+              </CardBody>
+              <CardFooter className="text-medium justify-between">
 
-            <b>{pokemon.id} </b>- {pokemon.name.toUpperCase()}
-            {/* <p className="text-default-500">{item.price}</p> */}
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+                <b>{pokemon.name.toUpperCase()} </b>#{pokemon.id}
+                {/* <p className="text-default-500">{item.price}</p> */}
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
       
     </div>
   )
