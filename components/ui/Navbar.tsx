@@ -12,14 +12,24 @@ export default function NavbarPage() {
           height={70}
           
         />
+        <Link href="/" color="foreground">
+
         <h1 style={{color: 'white'}}>P</h1>
+          
         <h3 style={{color: 'white'}}>okemon</h3>
+              </Link>
       </NavbarBrand>
       <NavbarContent justify="end">
         <NavbarItem>
-        <Button as={Link} color="danger" href="#" variant="flat">
-        Favorito
-      </Button>
+        <Button
+      href="/favourites"
+      as={Link}
+      color="secondary"
+      // showAnchorIcon
+      variant="solid"
+    >
+      Favoritos
+    </Button>
         </NavbarItem>
       </NavbarContent>
     </Navbar>

@@ -1,63 +1,43 @@
 import { pokeApi } from "@/api"
 import { Layout } from "@/components/layouts"
-import { Pokemon, PokemonListResponse } from "@/interfaces/pokemon-list"
-import {Card, CardBody, CardFooter, Image} from "@nextui-org/react";
-import { NextPage } from "next";
+import { PokemonCard } from "@/components/pokemon";
+import { SmallPokemon, PokemonListResponse } from "@/interfaces/pokemon-list"
+import { GetStaticProps, NextPage, GetStaticPaths } from "next";
 
 interface Props {
-  pokemons: Pokemon[]
+  pokemons: SmallPokemon[]
 }
 
 
 const Home: NextPage<Props> = ({ pokemons }) => {
-   console.log(pokemons)
   return (
     <div>
       <Layout title="Home" description="Listado de Pokemons" />
-      
-        <div className="gap-2 grid grid-cols-2 sm:grid-cols-5">
-          {pokemons.map((pokemon: any) => (
-            <Card shadow="sm" key={pokemon.id} isPressable onPress={() => alert(pokemon.name.toUpperCase())}>
-              <CardBody className="overflow-visible p-0">
-                <Image
-                  isZoomed
-                  // shadow="sm"
-                  // radius="lg"
-                  width="100%"
-                  alt={pokemon.name}
-                  src={pokemon.img}
-                  height={140}
-                />
-              </CardBody>
-              <CardFooter className="text-medium justify-between">
-
-                <b>{pokemon.name.toUpperCase()} </b>#{pokemon.id}
-                {/* <p className="text-default-500">{item.price}</p> */}
-              </CardFooter>
-            </Card>
-          ))}
+      <div className="gap-3 grid grid-cols-2 sm:grid-cols-4">
+        {       pokemons.map( ( pokemon ) => (
+          <PokemonCard key={ pokemon.id } pokemon={ pokemon } />
+          ))
+        }
         </div>
-      
     </div>
   )
 }
 export default Home
 // https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props
 
-export async function getStaticProps(ctx: any) {
+export const getStaticProps: GetStaticProps = async (ctx) => {
   
-  const resp = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')
-  console.log({ resp })
-  const pokemons: any[] = resp.data.results.map((poke: any, index: number) => ({
+  const { data } = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151');
+  
+  const pokemons: SmallPokemon[] = data.results.map( (poke, i) => ({
     ...poke,
-    id: index + 1,
-    img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`
-  }
-    ))
-  console.log({ pokemons })
+    id: i + 1,
+    img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${ i + 1 }.svg`
+  }) )
+
   return {
     props: {
-      pokemons: pokemons
-    },
+      pokemons
+    }
   }
 }
